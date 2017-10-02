@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template
 import os
-from cgi import escape
+from cgi import escape''
+from signup.py import user_signup
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
