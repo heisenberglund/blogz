@@ -1,9 +1,7 @@
-from flask import Flask, request, render_template, session, flash
+from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
-from signup.py import user_signup
-from main import db, Blog
-db.create_all()
-db.session.commit()
+#db.create_all()
+#db.session.commit()
 
 
 app = Flask(__name__)
@@ -11,7 +9,7 @@ app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
-app.secret_key =
+#app.secret_key =
 
 class Task(db.Model):
     id=db.Column(db.Integer, primary_key=True)
@@ -74,11 +72,11 @@ def register():
     return render_template('register.html')
     
     
-@app.route('/blog', methods=['POST'])
-def blog():
+#@app.route('/blog', methods=['POST'])
+#def blog():
     
-@app.route('/newpost', methods=['POST'])
-def newpost():
+#@app.route('/newpost', methods=['POST'])
+#def newpost():
 
 @app.route('/', methods=['POST','GET'])
 def index():
@@ -93,7 +91,7 @@ def index():
 
     tasks = Task.query.filter_by(completed=False,owner=owner).all()
     completed_tasks = Task.query.filter_by(completed=True,owner=owner).all()
-    return render_template('todos.html',title="Get It Done!", 
+    return render_template('todos.html',title="BLOGZILLA", 
         tasks=tasks, completed_tasks=completed_tasks)
 
 @app.route('/logout')
