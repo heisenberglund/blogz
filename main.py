@@ -25,6 +25,10 @@ class User(db.Model):
     password = db.Column(db.String(120))
     tasks = db.relationship('Task', backref='owner')
 
+    def __init__(self, name, user):
+        self.name = name
+        self.user = user
+
 @app.before_request
 def require_login():
     allowed_routes = ['login','register']
@@ -52,9 +56,6 @@ def register():
         email = request.form['email']
         password = request.form['password']
         verify = request.form['verify']
-
-        # TODO - validate user's data
-
         existing_user = User.query.filter_by(email=email).first()
         if not existing_user:
             new_user = User(email, password)
@@ -63,17 +64,9 @@ def register():
             session['email'] = email
             return redirect('/')
         else:
-            # TODO - user better response messaging
             return "<h1>Duplicate user</h1>"
 
     return render_template('register.html')
-    
-    
-#@app.route('/blog', methods=['POST'])
-#def blog():
-    
-#@app.route('/newpost', methods=['POST'])
-#def newpost():
 
 @app.route('/', methods=['POST','GET'])
 def index():
@@ -82,6 +75,7 @@ def index():
 
     if request.method == 'POST':
         task_name = request.form['task']
+        
         new_task = Task(task_name, owner)
         db.session.add(new_task)
         db.session.commit()

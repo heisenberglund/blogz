@@ -4,8 +4,12 @@
     <h1>BLOGZILLA</h1>
     <form method='post'>
         <label>
+            Title: 
+            <input type='text' name='title' />
+        </label>
+        <label>
             New Post:
-            <input type="textarea" name='task' />
+            <input <textarea rows="20" cols="60" name='task'></textarea>
         </label>
         <input type="submit" value='Submit Post' />
     </form>
@@ -31,7 +35,7 @@
 
     <hr />
 
-    <h2>Completed</h2>
+    
 
     <ul>
         {% for task in completed_tasks %}
