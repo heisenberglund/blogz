@@ -7,9 +7,11 @@
             Title: 
             <input type='text' name='title' />
         </label>
+
+        <hr />
         <label>
             New Post:
-            <input <textarea rows="20" cols="60" name='task'></textarea>
+            <textarea rows="10" cols="60" name='task'></textarea>
         </label>
         <input type="submit" value='Submit Post' />
     </form>
@@ -17,7 +19,7 @@
     <hr />
 
     {% if tasks|length == 0 %}
-    <p>No tasks yet</p>
+    <p>No Posts Yet</p>
     {% else %}
 
         <ul>
