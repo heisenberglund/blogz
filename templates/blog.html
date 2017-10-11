@@ -4,7 +4,7 @@
     <h1>BLOGZILLA</h1>
     <form method='post'>
         <label>
-            New Task:
+            New Post:
             <input type="textarea" name='task' />
         </label>
         <input type="submit" value='Submit Post' />
@@ -21,7 +21,7 @@
             <li>{{task.name}}
                 <form method="POST" action="/delete-task" style="display:inline-block;">
                     <input type="hidden" name="task-id" value="{{task.id}}" />
-                    <input type="submit" value="Done!" />
+                    <input type="submit" value="Delete" />
                 </form>
             </li>
             {% endfor %}
