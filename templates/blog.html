@@ -18,31 +18,6 @@
 
     <hr />
 
-    {% if tasks|length == 0 %}
-    <p>No Posts Yet</p>
-    {% else %}
-
-        <ul>
-            {% for task in tasks %}
-            <li>{{task.name}}
-                <form method="POST" action="/delete-task" style="display:inline-block;">
-                    <input type="hidden" name="task-id" value="{{task.id}}" />
-                    <input type="submit" value="Delete" />
-                </form>
-            </li>
-            {% endfor %}
-        </ul>
-
-    {% endif %}
-
-    <hr />
-
     
-
-    <ul>
-        {% for task in completed_tasks %}
-        <li>{{task.name}}</li>
-        {% endfor %}
-    </ul>
 
 {% endblock %}

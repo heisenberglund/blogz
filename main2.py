@@ -8,24 +8,23 @@ app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 app.secret_key = 'ryd4docv549sdlf'
 
-class Blog(db.Model):
+class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(5000))
     completed = db.Column(db.Boolean)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     title = db.Column(db.String(120))
 
-    def __init__(self, name, owner, title):
+    def __init__(self, name, owner):
         self.name = name
         self.completed = False
         self.owner = owner
-        self.title = title
     
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
-    tasks = db.relationship('Blog', backref='owner')
+    tasks = db.relationship('Task', backref='owner')
 
     def __init__(self, name, user):
         self.name = name
@@ -78,23 +77,25 @@ def index():
     if request.method == 'POST':
         task_name = request.form['task']
         title = request.form['title']
+        title = Task(title, owner)
 
-        new_task = Blog(task_name, owner, title)
+        new_task = Task(task_name, owner)
         db.session.add(new_task, title)
         db.session.commit()
 
-    tasks = Blog.query.filter_by(completed=False,owner=owner).all()
-    completed_tasks = Blog.query.filter_by(completed=True,owner=owner).all()
+    tasks = Task.query.filter_by(completed=False,owner=owner).all()
+    completed_tasks = Task.query.filter_by(completed=True,owner=owner).all()
     return render_template('blog.html',title="BLOGZILLA", 
         tasks=tasks, completed_tasks=completed_tasks)
 
-@app.route('/display', methods=['POST', 'GET'])
-def blog_page():
-
-    blogs = Blog.query.all()
- 
-    return render_template('display.html', blogs=blogs)
-
+@app.route('/delete-task', methods=['POST'])
+def delete_task():
+    task_id = int(request.form['task-id'])
+    task = Task.query.get(task_id)
+    task.completed = True
+    db.session.add()
+    db.session.commit()
+    return redirect('/')
 
 @app.route('/logout')
 def logout():
