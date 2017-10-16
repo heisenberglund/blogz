@@ -98,9 +98,9 @@ def blog_page():
 
 @app.route('/blogpage', methods=['POST','GET'])
 def individual_blog():
-    blogs = Blog.query.first()
+    blog = Blog.query.first()
 
-    return render_template('blogpost.html', blogs=blogs)  
+    return render_template('blogpost.html', blog=blog)  
     
 
 @app.route('/logout')
