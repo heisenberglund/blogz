@@ -92,9 +92,16 @@ def index():
 def blog_page():
 
     blogs = Blog.query.all()
+    users = User.query.all()
  
-    return render_template('display.html', blogs=blogs)
+    return render_template('display.html', blogs=blogs, users=users)
 
+@app.route('/blogpage', methods=['POST','GET'])
+def individual_blog():
+    blogs = Blog.query.first()
+
+    return render_template('blogpost.html', blogs=blogs)  
+    
 
 @app.route('/logout')
 def logout():
