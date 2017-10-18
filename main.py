@@ -90,19 +90,19 @@ def index():
 
 @app.route('/display', methods=['POST', 'GET'])
 def blog_page():
+    if request.args.get('id'):
+        page = request.args.get('Blog.id')
+        blog = Blog.query.filter_by(id=page).all()
+        return render_template('blogpost.html', blog=blog)
 
-    blogs = Blog.query.all()
-    users = User.query.all()
+    else:
+        blogs = Blog.query.all()
+        users = User.query.all()
  
-    return render_template('display.html', blogs=blogs, users=users)
+        return render_template('display.html', blogs=blogs, users=users)
 
-@app.route('/blogpage', methods=['POST','GET'])
-def individual_blog():
-    blog = Blog.query.first()
 
-    return render_template('blogpost.html', blog=blog)  
-    
-
+        
 @app.route('/logout')
 def logout():
     del session['email']
