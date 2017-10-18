@@ -2,4 +2,9 @@
 
 {% block content%}
 
+{% for user in users %}
+    <a href='/user-blog'>{{user.email}}</a>
+
+{% endfor %}
+
 {% endblock %}

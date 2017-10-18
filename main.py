@@ -27,10 +27,10 @@ class User(db.Model):
     password = db.Column(db.String(120))
     blog_owner = db.relationship('Blog', backref='owner')
 
-    def __init__(self, name, user):
-        self.name = name
-        self.user = user
-
+    def __init__(self, email, password):
+        self.email = email
+        self.password = password
+        
 @app.before_request
 def require_login():
     allowed_routes = ['login','register']
@@ -90,18 +90,28 @@ def index():
 
 @app.route('/display', methods=['POST', 'GET'])
 def blog_page():
-    if request.args.get('id'):
-        page = request.args.get('Blog.id')
+    if request.args:
+        user = request.args.get('blog_owner')
+        page = request.args.get('id')
         blog = Blog.query.filter_by(id=page).all()
-        return render_template('blogpost.html', blog=blog)
+        return render_template('display.html', blogs=blog, users=user)
 
     else:
         blogs = Blog.query.all()
-        users = User.query.all()
+        user = User.query.all()
  
-        return render_template('display.html', blogs=blogs, users=users)
+        return render_template('display.html', blogs=blogs, users=user)
 
+@app.route('/user', methods=['POST','GET'])
+def user_page():
+    user = User.query.all()
 
+    return render_template('user_page.html', users=user)
+
+#@app.route('/user-blog', methods=['POST','GET'])
+#def user_blog():
+    
+    
         
 @app.route('/logout')
 def logout():
