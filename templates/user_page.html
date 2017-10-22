@@ -3,7 +3,12 @@
 {% block content%}
 
 {% for user in users %}
-    <a href='/display?id={{user.email}}'>{{user.email}}</a></br>
+    <a href='/user?id={{user.email}}'>{{user.email}}</a></br>
+    {% for blog in blogs %}
+    
+        <p>{{blog.id}}</p>
+
+    {% endfor %}
 
 {% endfor %}
 

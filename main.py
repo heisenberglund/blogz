@@ -90,11 +90,15 @@ def index():
 
 @app.route('/display', methods=['POST', 'GET'])
 def blog_page():
-    if request.args:
-        user = request.args.get('blog_owner')
-        page = request.args.get('id')
-        blog = Blog.query.filter_by(id=page).all()
-        return render_template('display.html', blogs=blog, users=user)
+    if request.args.get('id'):
+        blog_id = request.args.get('id')
+        blog = Blog.query.get(blog_id)
+        return render_template('blogpost.html', blog=blog)
+
+    elif request.args.get('email'):
+        user_id = request.args.get('id')
+        user = User.query.get(user_id)
+        return render_template('user_page.html', users=user)
 
     else:
         blogs = Blog.query.all()
@@ -104,9 +108,19 @@ def blog_page():
 
 @app.route('/user', methods=['POST','GET'])
 def user_page():
-    user = User.query.all()
-
-    return render_template('user_page.html', users=user)
+    
+    
+    if request.args.get('email'):
+        user_id = request.args.get('email')
+        blog = request.args.get('id')
+        user = User.query.get(user_id)
+        blog = Blog.query.get(blog)
+        return render_template('user_page.html', users=user, blogs=blog)
+    
+    else:
+        user = User.query.all()
+        blog = Blog.query.all()
+        return render_template('user_page.html', users=user)
 
 #@app.route('/user-blog', methods=['POST','GET'])
 #def user_blog():
